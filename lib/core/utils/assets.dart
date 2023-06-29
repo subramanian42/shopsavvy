@@ -14,4 +14,6 @@ class Assets {
   static const profile = "assets/icons/profile_icon.png";
   static const backButton = "assets/icons/back_button_icon.png";
   static const background = "assets/icons/background_icon.png";
+  static const beer = "assets/icons/icon-beer.png";
+  static const profilePlaceholder = "assets/icons/default_profile_icon.png";
 }
