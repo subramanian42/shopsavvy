@@ -103,14 +103,15 @@ class AuthRepository {
     log(linkedinUser.toString());
     await _firebaseAuth.currentUser!
         .updateDisplayName((firstname ?? "") + " " + (lastname ?? ""));
-    await _firebaseAuth.currentUser!.updatePhotoURL(profileImageUrl);
+    if (profileImageUrl != null)
+      await _firebaseAuth.currentUser!.updatePhotoURL(profileImageUrl);
     await _firebaseAuth.currentUser!.updateEmail(email ?? "");
   }
 
   Future<void> logout() async {
     final socialSignInType =
         _firebaseAuth.currentUser?.providerData.first.providerId;
-    _firebaseAuth.signOut();
+    await _firebaseAuth.signOut();
     switch (socialSignInType) {
       case "google.com":
         await GoogleSignIn().signOut();
