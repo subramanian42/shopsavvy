@@ -32,7 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           if (state.status == FormStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Fetch Data Success")),
+              SnackBar(content: Text("Login Success")),
+            );
+          }
+          if (state.status == FormStatus.failure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.errorMessage!)),
             );
           }
         },
@@ -53,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const Text(
                 'Sign in with',
                 style: TextStyle(
-                  color: Colors.white, //#1E2022
+                  color: Colors.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 16,
                   fontFamily: "SF Pro Text",
@@ -66,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 16,
               ),
-              _facebookSignIn(),
+              // _facebookSignIn(),
               const SizedBox(
                 height: 16,
               ),
@@ -88,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+//Meta now requires all NEWLY entered package names to be associated with a valid google play store URL https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432
   Widget _facebookSignIn() {
     return SignInButton(
       logo: Assets.facebookIconSmall,
@@ -104,7 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
       title: "Linkedin",
       titleColor: AppColors.white,
       backgroundColor: const Color(0xFF0077B5),
-      onPressed: () {},
+      onPressed: () => context.push('/linkedin',
+          extra: BlocProvider.of<LoginCubit>(context)),
     );
   }
 }
