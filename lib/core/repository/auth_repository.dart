@@ -103,8 +103,10 @@ class AuthRepository {
     log(linkedinUser.toString());
     await _firebaseAuth.currentUser!
         .updateDisplayName((firstname ?? "") + " " + (lastname ?? ""));
+
     if (profileImageUrl != null)
       await _firebaseAuth.currentUser!.updatePhotoURL(profileImageUrl);
+
     await _firebaseAuth.currentUser!.updateEmail(email ?? "");
   }
 
