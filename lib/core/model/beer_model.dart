@@ -64,12 +64,3 @@ String _convertDoubleToString(dynamic value) {
     return (value as double).toStringAsFixed(1);
   }
 }
-
-double? _convertToDouble(dynamic value) {
-  if (value == null) return null;
-  if (value % 1 == 0) {
-    return (value as int).toDouble();
-  } else {
-    return value as double;
-  }
-}
