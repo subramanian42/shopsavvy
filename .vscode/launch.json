@@ -7,7 +7,8 @@
         {
             "name": "shopsavvy",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "toolArgs":["--dart-define-from-file","shop_savvy_secrets.json"],
         },
         {
             "name": "shopsavvy (profile mode)",

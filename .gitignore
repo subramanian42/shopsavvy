@@ -32,6 +32,9 @@ migrate_working_dir/
 .pub/
 /build/
 
+#secrets related
+shop_savvy_secrets.json
+
 #ignore google services
 google-services.json
 googleService-info.plist
@@ -41,6 +44,7 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
 
 # Android Studio will place build artifacts here
 /android/app/debug
