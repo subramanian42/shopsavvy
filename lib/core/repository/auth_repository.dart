@@ -1,8 +1,12 @@
+import 'dart:developer';
+
+import 'package:cloud_functions/cloud_functions.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
-import '../exceptions/google_auth_exceptions.dart';
+import 'package:linkedin_login/linkedin_login.dart';
+
+import '../exceptions/exceptions.dart';
 import '../model/user_model.dart';
 
 class LogOutFailure implements Exception {}
@@ -11,7 +15,6 @@ class AuthRepository {
   AuthRepository({
     FirebaseAuth? firebaseAuth,
     GoogleSignIn? googleSignIn,
-    FacebookAuth? facebookSignIn,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
         _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
 
@@ -56,10 +59,52 @@ class AuthRepository {
         await FirebaseAuth.instance.signInWithCredential(credential);
       }
     } on FirebaseAuthException catch (e) {
-      throw LogInWithGoogleFailure.fromCode(e.code);
+      throw LogInWithFacebookFailure.fromCode(e.code);
     } catch (_) {
-      throw const LogInWithGoogleFailure();
+      throw const LogInWithFacebookFailure();
     }
+  }
+
+  Future<void> loginWithLinkedin(UserSucceededAction response) async {
+    try {
+      final linkedinUser = response.user;
+      final uid = linkedinUser.userId;
+      FirebaseFunctions functions = FirebaseFunctions.instance;
+      HttpsCallable callable =
+          functions.httpsCallable('generateCustomToken'); //customToken
+      final result = await callable.call<String>(
+        <String, dynamic>{
+          'linkedinToken': uid ?? "",
+        },
+      );
+
+      final value = result.data;
+
+      await _firebaseAuth.signInWithCustomToken(value);
+
+      log("updating user Credentials...");
+      await setUser(linkedinUser);
+
+      log("successfully updated user Credentials...");
+    } on FirebaseAuthException catch (e) {
+      throw LogInWithLinkedinFailure.fromCode(e.code);
+    } catch (_) {
+      throw const LogInWithLinkedinFailure();
+    }
+  }
+
+  Future<void> setUser(LinkedInUserModel linkedinUser) async {
+    final firstname = linkedinUser.firstName?.localized?.label;
+    final lastname = linkedinUser.lastName?.localized?.label;
+    final email = linkedinUser.email?.elements?.first.handleDeep?.emailAddress;
+    final profileImageUrl = linkedinUser.profilePicture?.displayImageContent
+        ?.elements?[0].identifiers?[0].identifier;
+
+    log(linkedinUser.toString());
+    await _firebaseAuth.currentUser!
+        .updateDisplayName((firstname ?? "") + " " + (lastname ?? ""));
+    await _firebaseAuth.currentUser!.updatePhotoURL(profileImageUrl);
+    await _firebaseAuth.currentUser!.updateEmail(email ?? "");
   }
 
   Future<void> logout() async {
@@ -73,7 +118,6 @@ class AuthRepository {
       case "facebook.com":
         await FacebookAuth.instance.logOut();
         break;
-
       default:
         // No social sign-in was performed.
         break;

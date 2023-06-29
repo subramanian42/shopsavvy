@@ -11,7 +11,6 @@ class LoginState {
   final String? errorMessage;
   LoginState copyWith({
     FormStatus? status,
-    bool? isValid,
     String? errorMessage,
   }) {
     return LoginState(
