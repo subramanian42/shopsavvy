@@ -1,16 +1,16 @@
 part of 'login_cubit.dart';
 
-enum FormStatus { initial, success, failure }
+enum LoginStatus { initial, success, failure, loading }
 
 class LoginState {
   const LoginState({
-    this.status = FormStatus.initial,
+    this.status = LoginStatus.initial,
     this.errorMessage,
   });
-  final FormStatus status;
+  final LoginStatus status;
   final String? errorMessage;
   LoginState copyWith({
-    FormStatus? status,
+    LoginStatus? status,
     String? errorMessage,
   }) {
     return LoginState(

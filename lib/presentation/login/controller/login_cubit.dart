@@ -12,17 +12,20 @@ class LoginCubit extends Cubit<LoginState> {
 
   void loginWithGoogle() async {
     try {
+      emit(state.copyWith(
+        status: LoginStatus.loading,
+      ));
       await _authRepository.loginWithGoogle();
 
       emit(
         state.copyWith(
-          status: FormStatus.success,
+          status: LoginStatus.success,
         ),
       );
     } on LogInWithGoogleFailure catch (e) {
       emit(
         state.copyWith(
-          status: FormStatus.failure,
+          status: LoginStatus.failure,
           errorMessage: e.message,
         ),
       );
@@ -34,13 +37,13 @@ class LoginCubit extends Cubit<LoginState> {
       await _authRepository.loginWithFacebook();
       emit(
         state.copyWith(
-          status: FormStatus.success,
+          status: LoginStatus.success,
         ),
       );
     } on LogInWithFacebookFailure catch (e) {
       emit(
         state.copyWith(
-          status: FormStatus.failure,
+          status: LoginStatus.failure,
           errorMessage: e.message,
         ),
       );
@@ -54,13 +57,13 @@ class LoginCubit extends Cubit<LoginState> {
       await _authRepository.loginWithLinkedin(response);
       emit(
         state.copyWith(
-          status: FormStatus.success,
+          status: LoginStatus.success,
         ),
       );
     } on LogInWithLinkedinFailure catch (e) {
       emit(
         state.copyWith(
-          status: FormStatus.failure,
+          status: LoginStatus.failure,
           errorMessage: e.message,
         ),
       );

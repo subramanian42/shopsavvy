@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shopsavvy/core/repository/auth_repository.dart';
 import 'package:shopsavvy/core/theme/app_colors.dart';
+import 'package:shopsavvy/presentation/login/widget/error_dialog.dart';
 import 'package:shopsavvy/presentation/login/widget/sign_in_button.dart';
 
 import '../../core/utils/assets.dart';
@@ -30,12 +31,12 @@ class _LoginScreenState extends State<LoginScreen> {
     return SafeArea(
       child: BlocListener<LoginCubit, LoginState>(
         listener: (context, state) {
-          if (state.status == FormStatus.success) {
+          if (state.status == LoginStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text("Login Success")),
             );
           }
-          if (state.status == FormStatus.failure) {
+          if (state.status == LoginStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.errorMessage!)),
             );
@@ -43,40 +44,54 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         child: Scaffold(
           backgroundColor: const Color(0XFF1E2022),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32),
-                child: Image(
-                  image: AssetImage(Assets.appIconLarge),
-                ),
-              ),
-              const SizedBox(
-                height: 88,
-              ),
-              const Text(
-                'Sign in with',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                  fontFamily: "SF Pro Text",
-                ),
-              ),
-              const SizedBox(
-                height: 23,
-              ),
-              _googleSignIn(),
-              const SizedBox(
-                height: 16,
-              ),
-              // _facebookSignIn(),
-              const SizedBox(
-                height: 16,
-              ),
-              _linkedinSignIn(),
-            ],
+          body: BlocBuilder<LoginCubit, LoginState>(
+            builder: (context, state) {
+              if (state.status == LoginStatus.loading) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              if (state.status == LoginStatus.failure) {
+                return ErrorDialog(
+                  errorMessage: state.errorMessage,
+                );
+              }
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32),
+                    child: Image(
+                      image: AssetImage(Assets.appIconLarge),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 88,
+                  ),
+                  const Text(
+                    'Sign in with',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
+                      fontFamily: "SF Pro Text",
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 23,
+                  ),
+                  _googleSignIn(),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  // _facebookSignIn(),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  _linkedinSignIn(),
+                ],
+              );
+            },
           ),
         ),
       ),

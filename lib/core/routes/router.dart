@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:go_router/go_router.dart';
-import 'package:shopsavvy/presentation/product_detail/product_detail.dart';
 
 import 'dart:async';
 
-// import '../../presentation/home/view/test_screen.dart';
 import '../../presentation/home/view/home_screen.dart';
 import '../../presentation/login/login.dart';
 import '../../presentation/login/widget/linkedin_redirect.dart';
 import '../../presentation/not_found/not_found_screen.dart';
+
+import '../../presentation/product_detail/view/product_detail_screen.dart';
+import '../../presentation/profile/profile.dart';
 import '../bloc/auth_bloc.dart';
 
 part 'router_refresh_bloc.dart';
@@ -38,10 +39,12 @@ class AppRouter {
           BlocProvider.of<AuthBloc>(ctx),
         ),
         routes: [
-          GoRoute(
-            path: '/',
-            builder: HomeScreen.routeBuilder,
-          ),
+          GoRoute(path: '/', builder: HomeScreen.routeBuilder, routes: [
+            GoRoute(
+              path: 'productdetail',
+              builder: ProductDetailScreen.routeBuilder,
+            ),
+          ]),
           GoRoute(
             path: '/login',
             builder: LoginScreen.routeBuilder,
@@ -51,8 +54,8 @@ class AppRouter {
             builder: LinkedinRedirect.routeBuilder,
           ),
           GoRoute(
-            path: '/productdetail',
-            builder: ProductDetailScreen.routeBuilder,
+            path: '/profile',
+            builder: ProfileScreen.routeBuilder,
           )
         ],
         errorBuilder: (context, state) => const NotFoundScreen(),
