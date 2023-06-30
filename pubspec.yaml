@@ -36,6 +36,7 @@ flutter:
     - assets/linkedin_logo/
     - assets/app_logo/
     - assets/icons/
+    - assets/screenshots
   fonts:
     - family: SF Pro Text
       fonts:
