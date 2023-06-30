@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shopsavvy/core/repository/auth_repository.dart';
 import 'package:shopsavvy/core/theme/app_colors.dart';
-import 'package:shopsavvy/presentation/login/widget/error_dialog.dart';
 import 'package:shopsavvy/presentation/login/widget/sign_in_button.dart';
 
 import '../../core/utils/assets.dart';
@@ -60,15 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: CircularProgressIndicator(),
                 );
               }
-              if (state.status == LoginStatus.failure) {
-                return Center(
-                  child: ErrorDialog(
-                    errorMessage: state.errorMessage,
-                    onPressed: () =>
-                        context.read<LoginBloc>().add(LoginReset()),
-                  ),
-                );
-              }
+
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
