@@ -33,9 +33,10 @@ class _LoginScreenState extends State<LoginScreen> {
           if (state.status == LoginStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                  content: Text(
-                "Login Success",
-              )),
+                content: Text(
+                  "Login Success",
+                ),
+              ),
             );
           }
           if (state.status == LoginStatus.failure) {
