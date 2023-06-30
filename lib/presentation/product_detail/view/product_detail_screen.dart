@@ -45,7 +45,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 Flexible(
                   fit: FlexFit.loose,
                   child: Container(
-                    width: constraints.maxWidth,
                     color: Colors.white,
                     constraints: BoxConstraints(
                       minHeight: 450,
@@ -70,8 +69,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   Widget _productDetail() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
+    return Container(
+      margin: const EdgeInsets.symmetric(
         horizontal: 14.0,
       ),
       child: Column(
@@ -85,21 +84,19 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             style: Theme.of(context).textTheme.titleLarge,
           ),
           SizedBox(
-            height: 22,
+            height: 11,
           ),
-          Text(
-            widget.currentItem.description,
-            style: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(color: Color(0xff77838F)),
-
-            // TextStyle(
-            //   color: Color(0xff77838F),
-            //   fontSize: 14,
-            //   fontWeight: FontWeight.w400,
-            //   letterSpacing: 1,
-            // ),
+          Container(
+            margin: const EdgeInsets.only(
+              right: 14.0,
+            ),
+            child: Text(
+              widget.currentItem.description,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: Color(0xff77838F)),
+            ),
           ),
           SizedBox(
             height: 22,
@@ -117,16 +114,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   .bodyMedium!
                   .copyWith(color: Color(0xff77838F))),
           SizedBox(
-            height: 20,
+            height: 22,
           ),
           Text("Getting to know your beer better",
               style: Theme.of(context).textTheme.titleLarge),
           SizedBox(
             height: 22,
           ),
-          MoreInfo(currentItem: widget.currentItem),
+          MoreInfo(
+            currentItem: widget.currentItem,
+          ),
           SizedBox(
-            height: 16,
+            height: 34,
           ),
         ],
       ),
