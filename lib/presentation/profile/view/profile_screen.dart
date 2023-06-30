@@ -21,11 +21,11 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late UserModel _user;
+  late UserModel user;
   @override
   void initState() {
     super.initState();
-    _user = BlocProvider.of<AuthBloc>(context).state.user;
+    user = BlocProvider.of<AuthBloc>(context).state.user;
   }
 
   @override
@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             decoration: BoxDecoration(
                               color: Color(0xffD8D8D8),
                               borderRadius: BorderRadius.circular(20),
-                              image: _user.photo == null
+                              image: user.photo == null
                                   ? DecorationImage(
                                       fit: BoxFit.fill,
                                       image: AssetImage(
@@ -66,7 +66,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     )
                                   : DecorationImage(
                                       fit: BoxFit.fill,
-                                      image: NetworkImage(_user.photo!)),
+                                      image: NetworkImage(user.photo!),
+                                    ),
                             ),
                             constraints: BoxConstraints(
                               maxHeight: constraints.maxWidth * 0.675,
@@ -80,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 Flexible(
                     fit: FlexFit.loose,
-                    child: ProfileDetail(user: _user, constraints: constraints))
+                    child: ProfileDetail(user: user, constraints: constraints))
               ],
             ),
           );

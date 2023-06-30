@@ -50,14 +50,10 @@ class _HomeScreenState extends State<HomeScreen> {
             ProfileIcon(),
             Container(
               margin: EdgeInsets.only(left: 14, bottom: 20),
-              child: Text(
-                "Time to Cheers! Choose your beer...",
-                style: TextStyle(
-                  color: Color(0xffAFB2B5),
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                ),
-              ),
+              child: Text("Time to Cheers! Choose your beer...",
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: Color(0xffAFB2B5),
+                      )),
             ),
             _buildProductList(),
           ],
@@ -89,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisCount: 2,
             mainAxisSpacing: 28,
             crossAxisSpacing: 14,
-            mainAxisExtent: 298,
+            mainAxisExtent: 335,
           ),
           itemCount: state.beers.length,
           itemBuilder: (context, index) {

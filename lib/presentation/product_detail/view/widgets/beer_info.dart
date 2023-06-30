@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/assets.dart';
 
 class BeerInfo extends StatelessWidget {
-  const BeerInfo({super.key, required this.title, required this.value});
+  const BeerInfo(
+      {super.key, required this.title, required this.value, this.width});
   final String title;
+  final double? width;
   final String value;
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(maxWidth: 175, maxHeight: 40),
+      constraints: BoxConstraints(maxWidth: width ?? 157, maxHeight: 40),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -18,19 +20,21 @@ class BeerInfo extends StatelessWidget {
             width: 11,
           ),
           Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400),
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-              Text(
-                value,
-                style: TextStyle(
-                  color: Color(0xff77838F),
-                  fontSize: 12,
-                ),
+              SizedBox(
+                height: 5,
               ),
+              Text(value,
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .copyWith(color: Color(0xff77838F))),
             ],
           )
         ],
