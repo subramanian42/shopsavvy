@@ -41,5 +41,8 @@ flutter:
       fonts:
         - asset: assets/font/SF Pro Display/SFProDisplay-Regular.ttf
         - asset: assets/font/SF Pro Display/SF-Pro-Display-Bold.ttf
+          style: normal
+          weight: 700
         - asset: assets/font/SF Pro Display/SF-Pro-Display-Medium.ttf
-        - asset: assets/font/SF Pro Display/SF-Pro-Display-Regular.ttf
+          style: normal
+          weight: 500
