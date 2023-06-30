@@ -15,14 +15,14 @@ class CustomDecoratedBox extends StatelessWidget {
         vertical: 28,
       ),
       child: Text(
-        title ?? "NA",
+        (title?.isEmpty ?? true) ? "not available" : title!,
         maxLines: 1,
         overflow: TextOverflow.ellipsis,
         style: Theme.of(context).textTheme.titleLarge,
       ),
       height: 75,
       decoration: ShapeDecoration(
-        color: Theme.of(context).colorScheme.onTertiary, //Color(0xFFEEEEEE),
+        color: Theme.of(context).colorScheme.onTertiary,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
