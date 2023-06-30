@@ -13,6 +13,7 @@ class AppTheme {
           error: AppColors.red,
         ),
         textTheme: const TextTheme(
+          displayLarge: displayLargeStyle,
           titleLarge: titleBoldStyle,
           titleMedium: titleMediumStyle,
           titleSmall: titleRegularStyle,
@@ -22,6 +23,13 @@ class AppTheme {
         ),
       );
 
+  static const TextStyle displayLargeStyle = TextStyle(
+    color: Color(0xFF1E2022),
+    fontFamily: 'SF Pro Text',
+    fontWeight: FontWeight.bold,
+    fontSize: 20,
+    letterSpacing: 1,
+  );
   static const TextStyle titleBoldStyle = TextStyle(
     color: Color(0xFF1E2022),
     fontFamily: 'SF Pro Text',

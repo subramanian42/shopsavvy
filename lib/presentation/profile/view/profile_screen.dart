@@ -25,11 +25,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
     super.initState();
-    user = BlocProvider.of<AuthBloc>(context).state.user;
   }
 
   @override
   Widget build(BuildContext context) {
+    user = context.select<AuthBloc, UserModel>(
+      (value) => value.state.user,
+    );
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: LayoutBuilder(

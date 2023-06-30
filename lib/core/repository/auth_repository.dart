@@ -22,7 +22,7 @@ class AuthRepository {
   final GoogleSignIn _googleSignIn;
 
   Stream<UserModel> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
+    return _firebaseAuth.userChanges().map((firebaseUser) {
       final user = firebaseUser == null ? UserModel.empty : firebaseUser.toUser;
       return user;
     });
@@ -69,6 +69,7 @@ class AuthRepository {
     try {
       final linkedinUser = response.user;
       final uid = linkedinUser.userId;
+
       FirebaseFunctions functions = FirebaseFunctions.instance;
       HttpsCallable callable =
           functions.httpsCallable('generateCustomToken'); //customToken
@@ -79,7 +80,6 @@ class AuthRepository {
       );
 
       final value = result.data;
-
       await _firebaseAuth.signInWithCustomToken(value);
 
       log("updating user Credentials...");

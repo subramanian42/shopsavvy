@@ -5,12 +5,19 @@ import '../../../core/exceptions/exceptions.dart';
 import '../../../core/repository/auth_repository.dart';
 
 part 'login_state.dart';
+part 'login_event.dart';
 
-class LoginCubit extends Cubit<LoginState> {
-  LoginCubit(this._authRepository) : super(LoginState());
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
+  LoginBloc(this._authRepository) : super(LoginState()) {
+    on<LoginWithGoogle>(onLoginWithGoogle);
+    on<LoginReset>(onLoginReset);
+    on<LoginWithLinkedin>(onLoginWithLinkedin);
+    on<LoginWithFacebook>(onLoginWithFacebook);
+  }
   final AuthRepository _authRepository;
 
-  void loginWithGoogle() async {
+  void onLoginWithGoogle(
+      LoginWithGoogle event, Emitter<LoginState> emit) async {
     try {
       emit(state.copyWith(
         status: LoginStatus.loading,
@@ -32,7 +39,43 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
-  void loginWithFacebook() async {
+  void onLoginWithLinkedin(
+      LoginWithLinkedin event, Emitter<LoginState> emit) async {
+    try {
+      emit(
+        state.copyWith(
+          status: LoginStatus.loading,
+        ),
+      );
+      await _authRepository.loginWithLinkedin(event.response);
+      emit(
+        state.copyWith(
+          status: LoginStatus.success,
+        ),
+      );
+    } on LogInWithLinkedinFailure catch (e) {
+      emit(
+        state.copyWith(
+          status: LoginStatus.failure,
+          errorMessage: e.message,
+        ),
+      );
+    }
+  }
+
+  void onLoginReset(LoginReset event, Emitter<LoginState> emit) async {
+    emit(state.copyWith(
+      status: LoginStatus.loading,
+    ));
+    await Future.delayed(Duration(seconds: 2), () {
+      emit(state.copyWith(
+        status: LoginStatus.initial,
+      ));
+    });
+  }
+
+  void onLoginWithFacebook(
+      LoginWithFacebook event, Emitter<LoginState> emit) async {
     try {
       emit(state.copyWith(
         status: LoginStatus.loading,
@@ -44,29 +87,6 @@ class LoginCubit extends Cubit<LoginState> {
         ),
       );
     } on LogInWithFacebookFailure catch (e) {
-      emit(
-        state.copyWith(
-          status: LoginStatus.failure,
-          errorMessage: e.message,
-        ),
-      );
-    }
-  }
-
-  void loginWithLinkedin({
-    required UserSucceededAction response,
-  }) async {
-    try {
-      emit(state.copyWith(
-        status: LoginStatus.loading,
-      ));
-      await _authRepository.loginWithLinkedin(response);
-      emit(
-        state.copyWith(
-          status: LoginStatus.success,
-        ),
-      );
-    } on LogInWithLinkedinFailure catch (e) {
       emit(
         state.copyWith(
           status: LoginStatus.failure,

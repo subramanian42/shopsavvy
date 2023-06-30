@@ -37,6 +37,10 @@ class LogInWithLinkedinFailure implements Exception {
         return const LogInWithLinkedinFailure(
           'Incorrect password, please try again.',
         );
+      case "email-already-in-use":
+        return const LogInWithLinkedinFailure(
+          'Email already in use',
+        );
       case 'invalid-verification-code':
         return const LogInWithLinkedinFailure(
           'The credential verification code received is invalid.',
