@@ -49,12 +49,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       children: [
                         Background(
                           constraints: constraints,
-                          height: 300,
+                          height: constraints.maxHeight * 0.375,
                         ),
                         CustomBackButton(),
                         Positioned(
                           top: constraints.maxHeight * 0.175,
-                          left: 60,
+                          left: constraints.maxWidth * 1 / 6,
                           child: Container(
                             decoration: BoxDecoration(
                               color: Color(0xffD8D8D8),
