@@ -8,14 +8,14 @@ import 'package:shopsavvy/presentation/login/widget/sign_in_button.dart';
 
 import '../../core/utils/assets.dart';
 
-import 'controller/login_cubit.dart';
+import 'controller/login_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen._();
   static Widget routeBuilder(BuildContext context, GoRouterState state) {
-    return BlocProvider<LoginCubit>(
+    return BlocProvider<LoginBloc>(
       create: (context) {
-        return LoginCubit(context.read<AuthRepository>());
+        return LoginBloc(context.read<AuthRepository>());
       },
       child: const LoginScreen._(),
     );
@@ -29,7 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: BlocListener<LoginCubit, LoginState>(
+      child: BlocListener<LoginBloc, LoginState>(
         listener: (context, state) {
           if (state.status == LoginStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         },
         child: Scaffold(
           backgroundColor: Theme.of(context).primaryColor,
-          body: BlocBuilder<LoginCubit, LoginState>(
+          body: BlocBuilder<LoginBloc, LoginState>(
             builder: (context, state) {
               if (state.status == LoginStatus.loading) {
                 return Center(
@@ -61,8 +61,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 );
               }
               if (state.status == LoginStatus.failure) {
-                return ErrorDialog(
-                  errorMessage: state.errorMessage,
+                return Center(
+                  child: ErrorDialog(
+                    errorMessage: state.errorMessage,
+                    onPressed: () =>
+                        context.read<LoginBloc>().add(LoginReset()),
+                  ),
                 );
               }
               return Column(
@@ -81,14 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       style: Theme.of(context)
                           .textTheme
                           .titleLarge!
-                          .copyWith(color: Colors.white)
-                      // TextStyle(
-                      //   color: Colors.white,
-                      //   fontWeight: FontWeight.w700,
-                      //   fontSize: 16,
-                      //   fontFamily: "SF Pro Text",
-                      // ),
-                      ),
+                          .copyWith(color: Colors.white)),
                   const SizedBox(
                     height: 23,
                   ),
@@ -96,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 16,
                   ),
-                  _facebookSignIn(),
+                  // _facebookSignIn(),
                   const SizedBox(
                     height: 16,
                   ),
@@ -116,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
       title: "Google",
       titleColor: AppColors.darkBlue,
       backgroundColor: AppColors.white,
-      onPressed: () => context.read<LoginCubit>().loginWithGoogle(),
+      onPressed: () => context.read<LoginBloc>().add(LoginWithGoogle()),
     );
   }
 
@@ -137,8 +134,8 @@ class _LoginScreenState extends State<LoginScreen> {
       title: "Linkedin",
       titleColor: AppColors.white,
       backgroundColor: const Color(0xFF0077B5),
-      onPressed: () => context.push('/linkedin',
-          extra: BlocProvider.of<LoginCubit>(context)),
+      onPressed: () =>
+          context.push('/linkedin', extra: BlocProvider.of<LoginBloc>(context)),
     );
   }
 }

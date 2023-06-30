@@ -10,20 +10,35 @@ class ErrorDialog extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Oops! Something went wrong.',
-            style: TextStyle(fontSize: 20),
-          ),
+          Text('Oops! Something went wrong.',
+              style: Theme.of(context)
+                  .textTheme
+                  .displayLarge
+                  ?.copyWith(color: Theme.of(context).colorScheme.error)
+              // TextStyle(fontSize: 20),
+              ),
           const SizedBox(height: 16),
           Text(
-            "Here is what happened \n$errorMessage",
+            "Here is what happened \n\n$errorMessage",
             textAlign: TextAlign.center,
+            style: Theme.of(context)
+                .textTheme
+                .titleLarge
+                ?.copyWith(color: Theme.of(context).colorScheme.tertiary),
           ),
+          const SizedBox(height: 16),
           if (onPressed != null) ...{
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: onPressed,
-              child: const Text('Refresh'),
+              child: Text('Reload',
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      color: Theme.of(context).colorScheme.background)),
+              style: ButtonStyle(
+                backgroundColor: MaterialStatePropertyAll(
+                  Theme.of(context).colorScheme.secondary,
+                ),
+              ),
             ),
           },
         ],
