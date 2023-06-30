@@ -9,11 +9,18 @@ class Background extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: constraints.maxWidth,
-      constraints:
-          BoxConstraints.loose(Size(constraints.maxWidth, height ?? 350)),
+      constraints: BoxConstraints.loose(
+        Size(
+          constraints.maxWidth,
+          height ?? constraints.maxHeight * 0.45,
+        ),
+      ),
       decoration: BoxDecoration(
-          color: Color(0xff1E2022),
-          borderRadius: BorderRadius.only(bottomLeft: Radius.circular(16))),
+        color: Theme.of(context).primaryColor,
+        borderRadius: BorderRadius.only(
+          bottomLeft: Radius.circular(16),
+        ),
+      ),
     );
   }
 }

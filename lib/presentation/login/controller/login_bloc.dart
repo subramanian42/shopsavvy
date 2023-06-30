@@ -10,7 +10,7 @@ part 'login_event.dart';
 class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this._authRepository) : super(LoginState()) {
     on<LoginWithGoogle>(onLoginWithGoogle);
-    on<LoginReset>(onLoginReset);
+
     on<LoginWithLinkedin>(onLoginWithLinkedin);
     on<LoginWithFacebook>(onLoginWithFacebook);
   }
@@ -61,17 +61,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         ),
       );
     }
-  }
-
-  void onLoginReset(LoginReset event, Emitter<LoginState> emit) async {
-    emit(state.copyWith(
-      status: LoginStatus.loading,
-    ));
-    await Future.delayed(Duration(seconds: 2), () {
-      emit(state.copyWith(
-        status: LoginStatus.initial,
-      ));
-    });
   }
 
   void onLoginWithFacebook(

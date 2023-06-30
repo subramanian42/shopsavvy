@@ -39,7 +39,7 @@ class LogInWithLinkedinFailure implements Exception {
         );
       case "email-already-in-use":
         return const LogInWithLinkedinFailure(
-          'Email already in use',
+          'Error Email already in use',
         );
       case 'invalid-verification-code':
         return const LogInWithLinkedinFailure(
