@@ -8,14 +8,8 @@ class CustomLabel extends StatelessWidget {
     return Text(
       label,
       style: Theme.of(context).textTheme.titleLarge!.copyWith(
-            color: Color(0xff979797),
+          color: Theme.of(context).colorScheme.tertiary //Color(0xff979797),
           ),
-
-      // TextStyle(
-      //   color: Color(0xff979797),
-      //   fontSize: 16,
-      //   fontWeight: FontWeight.w700,
-      // ),
     );
   }
 }

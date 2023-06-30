@@ -22,7 +22,7 @@ class CustomDecoratedBox extends StatelessWidget {
       ),
       height: 75,
       decoration: ShapeDecoration(
-        color: Color(0xFFEEEEEE),
+        color: Theme.of(context).colorScheme.onTertiary, //Color(0xFFEEEEEE),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),

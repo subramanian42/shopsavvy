@@ -33,17 +33,26 @@ class _LoginScreenState extends State<LoginScreen> {
         listener: (context, state) {
           if (state.status == LoginStatus.success) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Login Success")),
+              SnackBar(
+                  content: Text(
+                "Login Success",
+              )),
             );
           }
           if (state.status == LoginStatus.failure) {
             ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMessage!)),
+              SnackBar(
+                  content: Text(
+                state.errorMessage!,
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.error,
+                    ),
+              )),
             );
           }
         },
         child: Scaffold(
-          backgroundColor: const Color(0XFF1E2022),
+          backgroundColor: Theme.of(context).primaryColor,
           body: BlocBuilder<LoginCubit, LoginState>(
             builder: (context, state) {
               if (state.status == LoginStatus.loading) {
@@ -68,15 +77,18 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 88,
                   ),
-                  const Text(
-                    'Sign in with',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                      fontFamily: "SF Pro Text",
-                    ),
-                  ),
+                  Text('Sign in with',
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: Colors.white)
+                      // TextStyle(
+                      //   color: Colors.white,
+                      //   fontWeight: FontWeight.w700,
+                      //   fontSize: 16,
+                      //   fontFamily: "SF Pro Text",
+                      // ),
+                      ),
                   const SizedBox(
                     height: 23,
                   ),
@@ -84,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 16,
                   ),
-                  // _facebookSignIn(),
+                  _facebookSignIn(),
                   const SizedBox(
                     height: 16,
                   ),

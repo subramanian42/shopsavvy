@@ -48,17 +48,13 @@ class GridItem extends StatelessWidget {
               child: Container(
                 margin: EdgeInsets.symmetric(vertical: 5),
                 padding: EdgeInsets.symmetric(vertical: 3, horizontal: 7),
-                color: Color(0xFF1E2022),
-                child: Text('First Brewed: ${beer.firstBrewed}',
-                    style: Theme.of(context)
-                        .textTheme
-                        .labelSmall!
-                        .copyWith(color: Color(0xfff2f2f2))
-                    // style: TextStyle(
-                    //     color: Color(0xfff2f2f2),
-                    //     fontSize: 12,
-                    //     fontWeight: FontWeight.w400),
-                    ),
+                color: Theme.of(context).primaryColor,
+                child: Text(
+                  'First Brewed: ${beer.firstBrewed}',
+                  style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                      ),
+                ),
               ),
             ),
           ],
@@ -125,13 +121,9 @@ class GridItem extends StatelessWidget {
         ),
         Text(value,
             style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Color(0xff77838F),
-                )
-            // style: TextStyle(
-            //   color: Color(0xff77838F),
-            //   fontSize: 12,
-            // ),
-            ),
+                color:
+                    Theme.of(context).colorScheme.secondary //Color(0xff77838F),
+                )),
       ],
     );
   }
