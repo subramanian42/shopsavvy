@@ -122,6 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _gridScrollController.dispose();
     super.dispose();
   }
 
