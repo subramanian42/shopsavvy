@@ -14,12 +14,18 @@ The application consists of the following screens:
 
 4. **Profile**: The profile screen contains basic user information and an option to logout.
 
+##Screenshots
+| | | | |
+|:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
+|<img width="200" alt="Login Page" src="assets/screenshots/Screenshot_1.png"> |  <img width="200" alt="home page" src="assets/screenshots/Screenshot_2.png"> | <img width="200" alt="Repository View Page" src="assets/screenshots/Screenshot_3.png"> | <img width="200" alt="File Explorer" src="assets/screenshots/Screenshot_4.png"> |
+
+
 ## Requirements
 
 To set up and run the application, please ensure you have the following:
 
-- Flutter SDK (minimum version X.X.X)
-- Dart SDK (minimum version X.X.X)
+- Flutter SDK (minimum version 3.10.0)
+- Dart SDK (minimum version 3.0.0)
 - A code editor (e.g., Visual Studio Code)
 - Emulator or physical device for testing
 - Firebase project with Firebase Authentication enabled
