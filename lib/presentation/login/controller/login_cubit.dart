@@ -34,6 +34,9 @@ class LoginCubit extends Cubit<LoginState> {
 
   void loginWithFacebook() async {
     try {
+      emit(state.copyWith(
+        status: LoginStatus.loading,
+      ));
       await _authRepository.loginWithFacebook();
       emit(
         state.copyWith(
@@ -54,6 +57,9 @@ class LoginCubit extends Cubit<LoginState> {
     required UserSucceededAction response,
   }) async {
     try {
+      emit(state.copyWith(
+        status: LoginStatus.loading,
+      ));
       await _authRepository.loginWithLinkedin(response);
       emit(
         state.copyWith(
