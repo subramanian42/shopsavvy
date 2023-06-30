@@ -6,7 +6,7 @@ Shop Savvy is a mobile application built using Flutter that allows users to brow
 
 The application consists of the following screens:
 
-1. **Login**: This screen is displayed when the user is not logged in. It provides social login options using Google, Facebook, or LinkedIn.
+1. **Login**: This screen is displayed when the user is not logged in. It provides social login options using Google or LinkedIn.
 
 2. **Home**: After successful login, the user is redirected to the home screen. This screen displays a list of products fetched from the backend using the Punk API. The products are presented in a scrollable list view, supporting pull-to-refresh and scroll-to-load-more functionality.
 
@@ -57,6 +57,8 @@ Install the required dependencies:
 
 flutter pub get
 ```
+
+
 Configure Firebase Authentication:
 Create a new Firebase project in the Firebase Console.
 Enable Firebase Authentication in your project.
@@ -87,13 +89,15 @@ apply plugin: 'com.google.gms.google-services' // Add this line
 
 // ...
 ```
-Run the application:
-
+Linkedin auth Provider
+1. create and configure shop_savvy_secrets.json file refer sample.json for the format.
+2. add client id, client secret to the shop_savvy_secrets.json file.
+3. run flutter with --dart-define-from-file to configure the app with shopsavvy secrets.
 ```bash
-
-flutter run
+flutter run --dart-define-from-file shop_savvy_secrets.json
 ```
-Now the Shop Savvy app is configured with Firebase Authentication. Users can log in using the social login options provided (Google, Facebook, or LinkedIn).
+
+Now the Shop Savvy app is configured with Firebase Authentication. Users can log in using the social login options provided (Google or LinkedIn).
 
 ## Dependencies and Libraries
 
