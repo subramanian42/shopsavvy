@@ -40,15 +40,10 @@ class SignInButton extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Text(
-                title,
-                style: TextStyle(
-                  color: titleColor,
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
-                  // fontFamily: "SF Pro Text",
-                ),
-              ),
+              child: Text(title,
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                        color: titleColor,
+                      )),
             ),
             const SizedBox(
               width: 31,

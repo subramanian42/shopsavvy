@@ -1,9 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:shopsavvy/core/theme/app_colors.dart';
 
 class AppTheme {
   static ThemeData get getTheme => ThemeData(
+        primaryColor: AppColors.darkBlue,
+        colorScheme: ColorScheme.light(
+          onPrimary: AppColors.bombay,
+          secondary: AppColors.lightGrey,
+          onSecondary: AppColors.concrete,
+          tertiary: AppColors.dustyGrey,
+          onTertiary: AppColors.grey,
+          error: AppColors.red,
+        ),
         textTheme: const TextTheme(
-          displayLarge: TextStyle(fontSize: 72, fontWeight: FontWeight.bold),
           titleLarge: titleBoldStyle,
           titleMedium: titleMediumStyle,
           titleSmall: titleRegularStyle,

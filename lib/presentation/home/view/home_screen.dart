@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFF1E2022),
+      backgroundColor: Theme.of(context).primaryColor,
       body: SingleChildScrollView(
         controller: _scrollController,
         child: Column(
@@ -52,7 +52,9 @@ class _HomeScreenState extends State<HomeScreen> {
               margin: EdgeInsets.only(left: 14, bottom: 20),
               child: Text("Time to Cheers! Choose your beer...",
                   style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: Color(0xffAFB2B5),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimary //Color(0xffAFB2B5),
                       )),
             ),
             _buildProductList(),
@@ -105,8 +107,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _failedToLoad(HomeState state) {
     return Container(
       child: Center(
-        child:
-            Text("The Following Error occoured\n" + (state.errorMessage ?? "")),
+        child: Text(
+          "The Following Error occoured\n" + (state.errorMessage ?? ""),
+          style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                color: Theme.of(context).colorScheme.error,
+              ),
+        ),
       ),
     );
   }
