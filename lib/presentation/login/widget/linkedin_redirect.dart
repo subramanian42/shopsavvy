@@ -29,6 +29,7 @@ class _LinkedinRedirectState extends State<LinkedinRedirect> {
             context.pop();
           },
           redirectUrl: "http://localhost:8080/shopsavvy/auth/linkedin",
+          projection: ProjectionParameters.fullProjection,
           clientId: const String.fromEnvironment("clientId"),
           clientSecret: const String.fromEnvironment("clientSecret"),
           destroySession: true,
