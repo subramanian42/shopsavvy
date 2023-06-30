@@ -6,8 +6,6 @@ class LoginWithGoogle extends LoginEvent {}
 
 class LoginWithFacebook extends LoginEvent {}
 
-class LoginReset extends LoginEvent {}
-
 class LoginWithLinkedin extends LoginEvent {
   UserSucceededAction response;
 
