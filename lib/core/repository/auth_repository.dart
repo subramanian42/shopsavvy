@@ -70,26 +70,35 @@ class AuthRepository {
       final linkedinUser = response.user;
       final uid = linkedinUser.userId;
 
-      FirebaseFunctions functions = FirebaseFunctions.instance;
-      HttpsCallable callable =
-          functions.httpsCallable('generateCustomToken'); //customToken
-      final result = await callable.call<String>(
-        <String, dynamic>{
-          'linkedinToken': uid ?? "",
-        },
-      );
-
-      final value = result.data;
-      await _firebaseAuth.signInWithCustomToken(value);
-
+      await Future.wait([
+        _verifyEmail(
+            linkedinUser), // verify email is not linked to other providers
+        _signInwithCustomToken(uid),
+      ]);
       log("updating user Credentials...");
       await setUser(linkedinUser);
       log("successfully updated user Credentials...");
     } on FirebaseAuthException catch (e) {
       throw LogInWithLinkedinFailure.fromCode(e.code);
+    } on LogInWithLinkedinFailure {
+      rethrow;
     } catch (_) {
-      throw const LogInWithLinkedinFailure();
+      throw LogInWithLinkedinFailure();
     }
+  }
+
+  Future<void> _signInwithCustomToken(String? token) async {
+    FirebaseFunctions functions = FirebaseFunctions.instance;
+    HttpsCallable callable =
+        functions.httpsCallable('generateCustomToken'); // generate customToken
+    final result = await callable.call<String>(
+      <String, dynamic>{
+        'linkedinToken': token ?? "",
+      },
+    );
+
+    final value = result.data;
+    await _firebaseAuth.signInWithCustomToken(value);
   }
 
   Future<void> setUser(LinkedInUserModel linkedinUser) async {
@@ -104,10 +113,17 @@ class AuthRepository {
     await _firebaseAuth.currentUser!
         .updateDisplayName((firstname ?? "") + " " + (lastname ?? ""));
 
-    if (profileImageUrl != null)
-      await _firebaseAuth.currentUser!.updatePhotoURL(profileImageUrl);
+    await _firebaseAuth.currentUser!.updatePhotoURL(profileImageUrl);
 
     await _firebaseAuth.currentUser!.updateEmail(email ?? "");
+  }
+
+  Future<void> _verifyEmail(LinkedInUserModel linkedinUser) async {
+    final email = linkedinUser.email?.elements?.first.handleDeep?.emailAddress;
+    List<String> providers =
+        await _firebaseAuth.fetchSignInMethodsForEmail(email ?? "");
+    if (providers.isNotEmpty)
+      throw LogInWithLinkedinFailure.fromCode("email-already-in-use");
   }
 
   Future<void> logout() async {
