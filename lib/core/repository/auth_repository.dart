@@ -84,7 +84,6 @@ class AuthRepository {
 
       log("updating user Credentials...");
       await setUser(linkedinUser);
-
       log("successfully updated user Credentials...");
     } on FirebaseAuthException catch (e) {
       throw LogInWithLinkedinFailure.fromCode(e.code);
@@ -101,6 +100,7 @@ class AuthRepository {
         ?.elements?[0].identifiers?[0].identifier;
 
     log(linkedinUser.toString());
+
     await _firebaseAuth.currentUser!
         .updateDisplayName((firstname ?? "") + " " + (lastname ?? ""));
 
@@ -111,18 +111,19 @@ class AuthRepository {
   }
 
   Future<void> logout() async {
-    final socialSignInType =
-        _firebaseAuth.currentUser?.providerData.first.providerId;
+    String socialSignInType = "";
+    if (_firebaseAuth.currentUser?.providerData.isNotEmpty ?? false)
+      socialSignInType =
+          _firebaseAuth.currentUser?.providerData[0].providerId ?? "";
     await _firebaseAuth.signOut();
     switch (socialSignInType) {
       case "google.com":
-        await GoogleSignIn().signOut();
+        await _googleSignIn.signOut();
         break;
       case "facebook.com":
         await FacebookAuth.instance.logOut();
         break;
       default:
-        // No social sign-in was performed.
         break;
     }
   }
