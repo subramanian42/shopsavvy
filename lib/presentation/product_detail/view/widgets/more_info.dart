@@ -10,7 +10,6 @@ class MoreInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,6 +34,7 @@ class MoreInfo extends StatelessWidget {
             SizedBox(height: 22),
             BeerInfo(
                 title: "ATTENUATION LEVEL",
+                width: 202,
                 value: currentItem.attenuationLevel),
           ],
         ),

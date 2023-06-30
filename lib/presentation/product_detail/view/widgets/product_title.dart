@@ -14,28 +14,22 @@ class ProductTitle extends StatelessWidget {
         CustomBackButton(),
         Container(
           margin: EdgeInsets.only(left: 14),
-          child: Text(
-            name,
-            style: TextStyle(
-              color: Color(0xffAFB2B5),
-              fontWeight: FontWeight.w700,
-              fontSize: 16,
-            ),
-          ),
+          child: Text(name,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleLarge!
+                  .copyWith(color: Color(0xffAFB2B5))),
         ),
         SizedBox(
           height: 12,
         ),
         Container(
           margin: EdgeInsets.only(left: 14),
-          child: Text(
-            tagline,
-            style: TextStyle(
-              color: Color(0xffAFB2B5),
-              fontWeight: FontWeight.w400,
-              fontSize: 14,
-            ),
-          ),
+          child: Text(tagline,
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium!
+                  .copyWith(color: Color(0xffAFB2B5))),
         )
       ],
     );

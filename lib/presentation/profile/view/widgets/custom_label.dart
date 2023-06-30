@@ -7,11 +7,15 @@ class CustomLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       label,
-      style: TextStyle(
-        color: Color(0xff979797),
-        fontSize: 16,
-        fontWeight: FontWeight.w700,
-      ),
+      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+            color: Color(0xff979797),
+          ),
+
+      // TextStyle(
+      //   color: Color(0xff979797),
+      //   fontSize: 16,
+      //   fontWeight: FontWeight.w700,
+      // ),
     );
   }
 }

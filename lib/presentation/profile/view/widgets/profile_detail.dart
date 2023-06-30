@@ -10,11 +10,11 @@ import 'logout_button.dart';
 class ProfileDetail extends StatelessWidget {
   const ProfileDetail({
     super.key,
-    required UserModel user,
+    required this.user,
     required this.constraints,
-  }) : _user = user;
+  });
 
-  final UserModel _user;
+  final UserModel user;
   final BoxConstraints constraints;
 
   @override
@@ -34,7 +34,7 @@ class ProfileDetail extends StatelessWidget {
             height: 9,
           ),
           CustomDecoratedBox(
-            title: _user.name,
+            title: user.name,
             width: constraints.maxWidth,
           ),
           SizedBox(
@@ -45,7 +45,7 @@ class ProfileDetail extends StatelessWidget {
             height: 9,
           ),
           CustomDecoratedBox(
-            title: _user.email,
+            title: user.email,
             width: constraints.maxWidth,
           ),
           SizedBox(

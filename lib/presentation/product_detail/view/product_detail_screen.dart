@@ -82,58 +82,45 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
           Text(
             "Description",
-            style: TextStyle(
-              color: Color(0xff1E2022),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           SizedBox(
             height: 22,
           ),
           Text(
             widget.currentItem.description,
-            style: TextStyle(
-              color: Color(0xff77838F),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 1,
-            ),
+            style: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(color: Color(0xff77838F)),
+
+            // TextStyle(
+            //   color: Color(0xff77838F),
+            //   fontSize: 14,
+            //   fontWeight: FontWeight.w400,
+            //   letterSpacing: 1,
+            // ),
           ),
           SizedBox(
             height: 22,
           ),
           Text(
             "First Brewed",
-            style: TextStyle(
-              color: Color(0xff1E2022),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           SizedBox(
             height: 11,
           ),
-          Text(
-            widget.currentItem.firstBrewed,
-            style: TextStyle(
-              color: Color(0xff77838F),
-              fontSize: 14,
-              fontWeight: FontWeight.w400,
-              letterSpacing: 1,
-            ),
-          ),
+          Text(widget.currentItem.firstBrewed,
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium!
+                  .copyWith(color: Color(0xff77838F))),
           SizedBox(
-            height: 22,
+            height: 20,
           ),
-          Text(
-            "Getting to know your beer better",
-            style: TextStyle(
-              color: Color(0xff1E2022),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
+          Text("Getting to know your beer better",
+              style: Theme.of(context).textTheme.titleLarge),
           SizedBox(
             height: 22,
           ),

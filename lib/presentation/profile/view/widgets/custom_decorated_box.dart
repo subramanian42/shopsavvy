@@ -9,17 +9,16 @@ class CustomDecoratedBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: width,
-      margin: EdgeInsets.symmetric(horizontal: 18),
-      padding: EdgeInsets.only(left: 11, top: 28, bottom: 28),
+      margin: EdgeInsets.symmetric(horizontal: 12),
+      padding: EdgeInsets.symmetric(
+        horizontal: 11,
+        vertical: 28,
+      ),
       child: Text(
         title ?? "NA",
-        style: TextStyle(
-          color: Color(0xFF1E2022),
-          fontSize: 16,
-          fontFamily: 'SF Pro Text',
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1,
-        ),
+        maxLines: 1,
+        overflow: TextOverflow.ellipsis,
+        style: Theme.of(context).textTheme.titleLarge,
       ),
       height: 75,
       decoration: ShapeDecoration(

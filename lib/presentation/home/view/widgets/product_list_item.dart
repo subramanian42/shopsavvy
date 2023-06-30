@@ -13,14 +13,14 @@ class GridItem extends StatelessWidget {
       onTap: () => context.push('/productdetail', extra: beer),
       child: Column(
         children: [
-          _imageStack(),
-          _productDetail(),
+          _imageStack(context),
+          _productDetail(context),
         ],
       ),
     );
   }
 
-  Widget _imageStack() {
+  Widget _imageStack(BuildContext context) {
     return Expanded(
       flex: 75,
       child: Container(
@@ -49,13 +49,16 @@ class GridItem extends StatelessWidget {
                 margin: EdgeInsets.symmetric(vertical: 5),
                 padding: EdgeInsets.symmetric(vertical: 3, horizontal: 7),
                 color: Color(0xFF1E2022),
-                child: Text(
-                  'First Brewed: ${beer.firstBrewed}',
-                  style: TextStyle(
-                      color: Color(0xfff2f2f2),
-                      fontSize: 12,
-                      fontWeight: FontWeight.w400),
-                ),
+                child: Text('First Brewed: ${beer.firstBrewed}',
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelSmall!
+                        .copyWith(color: Color(0xfff2f2f2))
+                    // style: TextStyle(
+                    //     color: Color(0xfff2f2f2),
+                    //     fontSize: 12,
+                    //     fontWeight: FontWeight.w400),
+                    ),
               ),
             ),
           ],
@@ -64,7 +67,7 @@ class GridItem extends StatelessWidget {
     );
   }
 
-  Widget _productDetail() {
+  Widget _productDetail(BuildContext context) {
     return Expanded(
       flex: 74,
       child: Container(
@@ -79,7 +82,9 @@ class GridItem extends StatelessWidget {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             beer.name,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           SizedBox(
             height: 7,
@@ -88,44 +93,45 @@ class GridItem extends StatelessWidget {
             beer.description,
             maxLines: 3,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: Color(0xff77838F),
-                fontSize: 12,
-                fontWeight: FontWeight.w400),
+            style: Theme.of(context).textTheme.bodySmall,
           ),
           SizedBox(
             height: 12,
           ),
           Row(
             children: [
-              _infoRow('ABV', beer.abv),
+              _infoRow('ABV', beer.abv, context),
               SizedBox(
                 width: 16,
               ),
-              _infoRow('IBU', beer.ibu),
+              _infoRow('IBU', beer.ibu, context),
             ],
+          ),
+          SizedBox(
+            height: 16,
           ),
         ]),
       ),
     );
   }
 
-  Widget _infoRow(
-    String title,
-    String value,
-  ) {
+  Widget _infoRow(String title, String value, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400)),
         Text(
-          value,
-          style: TextStyle(
-            color: Color(0xff77838F),
-            fontSize: 12,
-          ),
+          title,
+          style: Theme.of(context).textTheme.titleMedium,
         ),
+        Text(value,
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Color(0xff77838F),
+                )
+            // style: TextStyle(
+            //   color: Color(0xff77838F),
+            //   fontSize: 12,
+            // ),
+            ),
       ],
     );
   }

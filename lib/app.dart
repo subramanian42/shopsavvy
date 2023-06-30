@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:shopsavvy/core/theme/theme.dart';
 
 import 'core/bloc/auth_bloc.dart';
 import 'core/clients/punk_api_client.dart';
@@ -60,6 +61,7 @@ class _ShopSavvyViewState extends State<ShopSavvyView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      theme: AppTheme.getTheme,
       routeInformationParser: _router.routeInformationParser,
       routerDelegate: _router.routerDelegate,
       routeInformationProvider: _router.routeInformationProvider,
