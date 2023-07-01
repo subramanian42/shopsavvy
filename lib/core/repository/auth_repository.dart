@@ -69,11 +69,12 @@ class AuthRepository {
     try {
       final linkedinUser = response.user;
       final uid = linkedinUser.userId;
+      final email =
+          linkedinUser.email?.elements?.first.handleDeep?.emailAddress;
 
       await Future.wait([
-        _verifyEmail(
-            linkedinUser), // verify email is not linked to other providers
-        _signInwithCustomToken(uid),
+        _verifyEmail(email), // verify email is not linked to other providers
+        _signInwithCustomToken(uid, email),
       ]);
       log("updating user Credentials...");
       await setUser(linkedinUser);
@@ -87,17 +88,15 @@ class AuthRepository {
     }
   }
 
-  Future<void> _signInwithCustomToken(String? token) async {
+  Future<void> _signInwithCustomToken(String? uid, String? email) async {
     FirebaseFunctions functions = FirebaseFunctions.instance;
     HttpsCallable callable =
-        functions.httpsCallable('generateCustomToken'); // generate customToken
-    final result = await callable.call<String>(
-      <String, dynamic>{
-        'linkedinToken': token ?? "",
-      },
+        functions.httpsCallable('createCustomToken'); // generate customToken
+    final result = await callable.call<Map<String, dynamic>>(
+      <String, dynamic>{'uid': uid, 'email': email},
     );
 
-    final value = result.data;
+    final String value = result.data['token'] as String;
     await _firebaseAuth.signInWithCustomToken(value);
   }
 
@@ -118,8 +117,7 @@ class AuthRepository {
     await _firebaseAuth.currentUser!.updateEmail(email ?? "");
   }
 
-  Future<void> _verifyEmail(LinkedInUserModel linkedinUser) async {
-    final email = linkedinUser.email?.elements?.first.handleDeep?.emailAddress;
+  Future<void> _verifyEmail(String? email) async {
     List<String> providers =
         await _firebaseAuth.fetchSignInMethodsForEmail(email ?? "");
     if (providers.isNotEmpty)
