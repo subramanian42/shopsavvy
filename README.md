@@ -14,7 +14,7 @@ The application consists of the following screens:
 
 4. **Profile**: The profile screen contains basic user information and an option to logout.
 
-##Screenshots
+## Screenshots
 | | | | |
 |:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:|
 |<img width="200" alt="Login Page" src="assets/screenshots/Screenshot_1.png"> |  <img width="200" alt="home page" src="assets/screenshots/Screenshot_2.png"> | <img width="200" alt="Repository View Page" src="assets/screenshots/Screenshot_3.png"> | <img width="200" alt="File Explorer" src="assets/screenshots/Screenshot_4.png"> |
@@ -45,10 +45,7 @@ cd shop-savvy
 ```bash
 flutter pub get
 ```
-Certainly! Here's the unrendered markdown for the Firebase Authentication installation instructions:
 
-bash
-Copy code
 ## Installation Instructions
 
 1. Clone the repository to your local machine:
@@ -64,13 +61,12 @@ Install the required dependencies:
 flutter pub get
 ```
 
-
 Configure Firebase Authentication:
-Create a new Firebase project in the Firebase Console.
-Enable Firebase Authentication in your project.
-Download the google-services.json file from the Firebase project settings.
-Place the google-services.json file in the android/app directory of your Flutter project.
-Update the android/build.gradle file as follows:
+1. Create a new Firebase project in the Firebase Console.
+2. Enable Firebase Authentication in your project.
+3. Download the google-services.json file from the Firebase project settings.
+4. Place the google-services.json file in the android/app directory of your Flutter project.
+5. Update the android/build.gradle file as follows:
 ```groovy
 buildscript {
     dependencies {
@@ -134,26 +130,6 @@ Configure Firebase function
      });
      ```
 
-5. **Call the Firebase Function from Flutter:**
-   - In your Flutter project, make sure you have the `cloud_functions` package added as a dependency in your `pubspec.yaml` file.
-   - Import the necessary packages:
-     ```dart
-     import 'package:cloud_functions/cloud_functions.dart';
-     ```
-   - Call the Firebase Function to generate the custom token:
-     ```dart
-     // Obtain the Firebase app configuration values from your Firebase project settings
-
-     // Create a Cloud Functions instance
-     FirebaseFunctions functions = FirebaseFunctions.instanceFor(app: app);
-
-     // Call the Firebase Function to generate the custom token
-     HttpsCallable callable = functions.httpsCallable('generateCustomToken');
-     dynamic result = await callable.call({'uid': '...', 'email': '...'});
-     String customToken = result.data['token'];
-     ```
-
-
 Linkedin auth Provider
 1. create and configure shop_savvy_secrets.json file refer sample.json for the format.
 2. add client id, client secret to the shop_savvy_secrets.json file.
@@ -176,6 +152,8 @@ The application utilizes the following dependencies and libraries:
 
 - **firebase_auth**: The official Firebase plugin for Flutter, used for integrating Firebase Authentication.
 
+- **firebase_functions**: The Firebase Functions plugin for Flutter, used for deploying and managing serverless functions on Firebase.
+
 ## Assumptions
 
 The following assumptions were made during the development of the Shop Savvy application:
@@ -183,7 +161,7 @@ The following assumptions were made during the development of the Shop Savvy app
 1. The user authentication process is handled entirely by the social login APIs (Google, LinkedIn) provided by Firebase Authentication.
 2. The backend API provided by Punk API is used for retrieving the product data.
 3. The design and layout of the application follow the specifications provided in the Figma design.
-4. Meta now requires all NEWLY entered package names to be associated with a valid google play store URL hence has not been implemented[link](https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432)
+4. Meta now requires all NEWLY entered package names to be associated with a valid google play store URL hence facebook provider has not been implemented[link](https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432)
 
 ## Project Structure
 
