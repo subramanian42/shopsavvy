@@ -87,14 +87,73 @@ allprojects {
     }
 }
 ```
-Update the android/app/build.gradle file as follows:
-```groovy
+Configure Firebase function
+1. **Prerequisites:**
+   - Make sure you have the Firebase SDK for Flutter installed in your project. You can follow the official FlutterFire documentation for installation instructions.
+   - Additionally, you will need to have Node.js and npm (Node Package Manager) installed on your machine to work with Firebase Functions.
 
-apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services' // Add this line
+2. **Set up Firebase Functions:**
+   - Open your project in the Firebase console (https://console.firebase.google.com) and navigate to the project settings.
+   - In the "General" tab, scroll down to the "Your apps" section and click on the "Add app" button.
+   - Select the platform "Web" and register your app by following the instructions provided. Make sure to copy the Firebase configuration values (e.g., API key, project ID) as you will need them later.
 
-// ...
-```
+3. **Create a Firebase Functions project:**
+   - Open a command-line interface and navigate to the root directory of your Flutter project.
+   - Run the following command to create a new Firebase Functions project:
+     ```
+     firebase init functions
+     ```
+   - Choose an existing Firebase project or create a new one.
+   - Select the option to set up TypeScript as the language for your functions.
+   - Install the required dependencies by running the following command:
+     ```
+     cd functions
+     npm install firebase-admin
+     ```
+
+4. **Generate a custom token in Firebase Functions:**
+   - In your Firebase Functions project, open the `index.ts` file located in the `functions/src` directory.
+   - Import the necessary modules and initialize Firebase Admin:
+     ```typescript
+     import * as functions from 'firebase-functions';
+     import * as admin from 'firebase-admin';
+
+     admin.initializeApp();
+     ```
+   - Implement a function to generate the custom token. Here's an example:
+     ```typescript
+     export const generateCustomToken = functions.https.onCall(async (data, context) => {
+       const { uid, email } = data;
+
+       try {
+         const token = await admin.auth().createCustomToken(uid, { email });
+         return { token };
+       } catch (error) {
+         throw new functions.https.HttpsError('internal', 'Failed to generate custom token', error);
+       }
+     });
+     ```
+
+5. **Call the Firebase Function from Flutter:**
+   - In your Flutter project, make sure you have the `cloud_functions` package added as a dependency in your `pubspec.yaml` file.
+   - Import the necessary packages:
+     ```dart
+     import 'package:cloud_functions/cloud_functions.dart';
+     ```
+   - Call the Firebase Function to generate the custom token:
+     ```dart
+     // Obtain the Firebase app configuration values from your Firebase project settings
+
+     // Create a Cloud Functions instance
+     FirebaseFunctions functions = FirebaseFunctions.instanceFor(app: app);
+
+     // Call the Firebase Function to generate the custom token
+     HttpsCallable callable = functions.httpsCallable('generateCustomToken');
+     dynamic result = await callable.call({'uid': '...', 'email': '...'});
+     String customToken = result.data['token'];
+     ```
+
+
 Linkedin auth Provider
 1. create and configure shop_savvy_secrets.json file refer sample.json for the format.
 2. add client id, client secret to the shop_savvy_secrets.json file.
