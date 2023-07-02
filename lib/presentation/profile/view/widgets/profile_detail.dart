@@ -27,7 +27,7 @@ class ProfileDetail extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: 130,
+            height: constraints.maxHeight * 0.175,
           ),
           CustomLabel(label: "Name"),
           SizedBox(
