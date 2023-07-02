@@ -15,6 +15,7 @@ class MoreInfo extends StatelessWidget {
     return Container(
       margin: EdgeInsets.only(left: 3),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,9 +40,6 @@ class MoreInfo extends StatelessWidget {
                 value: currentItem.ph,
               ),
             ],
-          ),
-          SizedBox(
-            width: 20,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,

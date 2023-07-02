@@ -70,9 +70,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       image: AssetImage(Assets.appIconLarge),
                     ),
                   ),
-                  const SizedBox(
-                    height: 88,
-                  ),
+                  Spacer(),
                   Text('Sign in with',
                       style: Theme.of(context)
                           .textTheme
@@ -90,6 +88,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 16,
                   ),
                   _linkedinSignIn(),
+                  const SizedBox(
+                    height: 41,
+                  ),
                 ],
               );
             },

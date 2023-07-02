@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shopsavvy/core/widgets/back_button.dart';
 import 'package:shopsavvy/presentation/profile/view/widgets/profile_detail.dart';
+import 'package:shopsavvy/presentation/profile/view/widgets/profile_image.dart';
 
 import '../../../core/bloc/auth_bloc.dart';
 import '../../../core/model/user_model.dart';
-import '../../../core/utils/assets.dart';
 import '../../../core/widgets/background.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -52,31 +52,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           height: constraints.maxHeight * 0.375,
                         ),
                         CustomBackButton(),
-                        Positioned(
-                          top: constraints.maxHeight * 0.175,
-                          left: constraints.maxWidth * 1 / 6,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Color(0xffD8D8D8),
-                              borderRadius: BorderRadius.circular(20),
-                              image: user.photo == null
-                                  ? DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: AssetImage(
-                                        Assets.profilePlaceholder,
-                                      ),
-                                    )
-                                  : DecorationImage(
-                                      fit: BoxFit.fill,
-                                      image: NetworkImage(user.photo!),
-                                    ),
-                            ),
-                            constraints: BoxConstraints(
-                              maxHeight: constraints.maxWidth * 0.675,
-                              maxWidth: constraints.maxWidth * 0.675,
-                            ),
-                          ),
-                        ),
+                        ProfileImage(
+                          constraints: constraints,
+                          imageUrl: user.photo,
+                        )
                       ],
                     ),
                   ),

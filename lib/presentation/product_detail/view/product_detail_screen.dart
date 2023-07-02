@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../../core/model/beer_model.dart';
 import '../../../core/widgets/background.dart';
 import 'widgets/image.dart';
-import 'widgets/more_info.dart';
+import 'widgets/product_detail.dart';
 import 'widgets/product_title.dart';
 
 class ProductDetailScreen extends StatefulWidget {
@@ -22,8 +22,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        body: LayoutBuilder(builder: (context, constraints) {
+      resizeToAvoidBottomInset: false,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
           return SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -57,7 +58,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                           maxHeight: constraints.maxHeight,
                           maxWidth: constraints.maxWidth,
                         ),
-                        _productDetail(),
+                        ProductDetail(
+                            constraints: constraints,
+                            currentItem: widget.currentItem),
                       ],
                     ),
                   ),
@@ -65,69 +68,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ],
             ),
           );
-        }));
-  }
-
-  Widget _productDetail() {
-    return Container(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 14.0,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 95,
-          ),
-          Text(
-            "Description",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          SizedBox(
-            height: 11,
-          ),
-          Container(
-            margin: const EdgeInsets.only(
-              right: 14.0,
-            ),
-            child: Text(
-              widget.currentItem.description,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: Color(0xff77838F)),
-            ),
-          ),
-          SizedBox(
-            height: 22,
-          ),
-          Text(
-            "First Brewed",
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
-          SizedBox(
-            height: 11,
-          ),
-          Text(widget.currentItem.firstBrewed,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyMedium!
-                  .copyWith(color: Color(0xff77838F))),
-          SizedBox(
-            height: 22,
-          ),
-          Text("Getting to know your beer better",
-              style: Theme.of(context).textTheme.titleLarge),
-          SizedBox(
-            height: 22,
-          ),
-          MoreInfo(
-            currentItem: widget.currentItem,
-          ),
-          SizedBox(
-            height: 34,
-          ),
-        ],
+        },
       ),
     );
   }
