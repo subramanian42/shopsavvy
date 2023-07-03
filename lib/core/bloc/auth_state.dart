@@ -5,7 +5,7 @@ enum AppStatus {
   unauthenticated,
 }
 
-final class AuthState {
+final class AuthState extends Equatable {
   const AuthState._({
     required this.status,
     this.user = UserModel.empty,
@@ -18,4 +18,6 @@ final class AuthState {
 
   final AppStatus status;
   final UserModel user;
+  @override
+  List<Object> get props => [status, user];
 }

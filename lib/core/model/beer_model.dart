@@ -1,6 +1,8 @@
 import 'dart:convert';
 
-class Beer {
+import 'package:equatable/equatable.dart';
+
+class Beer extends Equatable {
   final int id;
   final String name;
   final String tagline;
@@ -16,7 +18,7 @@ class Beer {
   final String ph;
   final String attenuationLevel;
 
-  Beer({
+  const Beer({
     required this.id,
     required this.name,
     required this.tagline,
@@ -53,6 +55,23 @@ class Beer {
         ph: _convertDoubleToString(json["ph"]),
         attenuationLevel: _convertDoubleToString(json["attenuation_level"]),
       );
+  @override
+  List<Object?> get props => [
+        id,
+        name,
+        tagline,
+        firstBrewed,
+        description,
+        imageUrl,
+        abv,
+        ibu,
+        targetFg,
+        targetOg,
+        ebc,
+        srm,
+        ph,
+        attenuationLevel
+      ];
 }
 
 String _convertDoubleToString(dynamic value) {

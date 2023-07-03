@@ -9,17 +9,23 @@ import 'package:linkedin_login/linkedin_login.dart';
 import '../exceptions/exceptions.dart';
 import '../model/user_model.dart';
 
-class LogOutFailure implements Exception {}
+class LogoutFailure implements Exception {}
 
 class AuthRepository {
   AuthRepository({
     FirebaseAuth? firebaseAuth,
+    FacebookAuth? facebookAuth,
+    FirebaseFunctions? firebaseFunctions,
     GoogleSignIn? googleSignIn,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
+        _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
+        _facebookAuth = facebookAuth ?? FacebookAuth.instance,
+        _firebaseFunctions = firebaseFunctions ?? FirebaseFunctions.instance;
 
-  late final FirebaseAuth _firebaseAuth;
+  final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
+  final FacebookAuth _facebookAuth;
+  final FirebaseFunctions _firebaseFunctions;
 
   Stream<UserModel> get user {
     return _firebaseAuth.userChanges().map((firebaseUser) {
@@ -40,7 +46,7 @@ class AuthRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } catch (_) {
@@ -56,7 +62,7 @@ class AuthRepository {
         final OAuthCredential credential =
             FacebookAuthProvider.credential(result.accessToken!.token);
 
-        await FirebaseAuth.instance.signInWithCredential(credential);
+        await _firebaseAuth.signInWithCredential(credential);
       }
     } on FirebaseAuthException catch (e) {
       throw LogInWithFacebookFailure.fromCode(e.code);
@@ -73,8 +79,8 @@ class AuthRepository {
           linkedinUser.email?.elements?.first.handleDeep?.emailAddress;
 
       await Future.wait([
-        _verifyEmail(email), // verify email is not linked to other providers
-        _signInwithCustomToken(uid, email),
+        verifyEmail(email), // verify email is not linked to other providers
+        signInwithCustomToken(uid, email),
       ]);
       log("updating user Credentials...");
       await setUser(linkedinUser);
@@ -88,10 +94,9 @@ class AuthRepository {
     }
   }
 
-  Future<void> _signInwithCustomToken(String? uid, String? email) async {
-    FirebaseFunctions functions = FirebaseFunctions.instance;
-    HttpsCallable callable =
-        functions.httpsCallable('createCustomToken'); // generate customToken
+  Future<void> signInwithCustomToken(String? uid, String? email) async {
+    HttpsCallable callable = _firebaseFunctions
+        .httpsCallable('createCustomToken'); // generate customToken
     final result = await callable.call<Map<String, dynamic>>(
       <String, dynamic>{'uid': uid, 'email': email},
     );
@@ -117,28 +122,32 @@ class AuthRepository {
     await _firebaseAuth.currentUser!.updateEmail(email ?? "");
   }
 
-  Future<void> _verifyEmail(String? email) async {
+  Future<void> verifyEmail(String? email) async {
     List<String> providers =
         await _firebaseAuth.fetchSignInMethodsForEmail(email ?? "");
     if (providers.isNotEmpty)
       throw LogInWithLinkedinFailure.fromCode("email-already-in-use");
   }
 
-  Future<void> logout() async {
-    String socialSignInType = "";
-    if (_firebaseAuth.currentUser?.providerData.isNotEmpty ?? false)
-      socialSignInType =
-          _firebaseAuth.currentUser?.providerData[0].providerId ?? "";
-    await _firebaseAuth.signOut();
-    switch (socialSignInType) {
-      case "google.com":
-        await _googleSignIn.signOut();
-        break;
-      case "facebook.com":
-        await FacebookAuth.instance.logOut();
-        break;
-      default:
-        break;
+  Future<void> logout({String? signinType}) async {
+    try {
+      String socialSignInType = signinType ?? "";
+      if (_firebaseAuth.currentUser?.providerData.isNotEmpty ?? false)
+        socialSignInType =
+            _firebaseAuth.currentUser?.providerData[0].providerId ?? "";
+      await _firebaseAuth.signOut();
+      switch (socialSignInType) {
+        case "google.com":
+          await _googleSignIn.signOut();
+          break;
+        case "facebook.com":
+          await _facebookAuth.logOut();
+          break;
+        default:
+          break;
+      }
+    } catch (_) {
+      throw LogoutFailure();
     }
   }
 }

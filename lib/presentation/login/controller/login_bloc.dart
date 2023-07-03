@@ -1,3 +1,4 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:linkedin_login/linkedin_login.dart';
 
@@ -36,6 +37,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           errorMessage: e.message,
         ),
       );
+    } catch (_) {
+      emit(state.copyWith(status: LoginStatus.failure));
     }
   }
 
@@ -60,6 +63,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           errorMessage: e.message,
         ),
       );
+    } catch (_) {
+      emit(state.copyWith(status: LoginStatus.failure));
     }
   }
 
@@ -82,6 +87,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           errorMessage: e.message,
         ),
       );
+    } catch (_) {
+      emit(state.copyWith(status: LoginStatus.failure));
     }
   }
 }
