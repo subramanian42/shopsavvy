@@ -36,6 +36,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           errorMessage: e.message,
         ),
       );
+    } catch (_) {
+      emit(state.copyWith(status: LoginStatus.failure));
     }
   }
 
@@ -60,6 +62,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           errorMessage: e.message,
         ),
       );
+    } catch (_) {
+      emit(state.copyWith(status: LoginStatus.failure));
     }
   }
 
@@ -82,6 +86,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           errorMessage: e.message,
         ),
       );
+    } catch (_) {
+      emit(state.copyWith(status: LoginStatus.failure));
     }
   }
 }
