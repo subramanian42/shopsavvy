@@ -2,8 +2,10 @@ import '../clients/punk_api_client.dart';
 import '../model/beer_model.dart';
 
 class ProductRepository {
+  ProductRepository({PunkApiClient? punkApiClient})
+      : _punkApiClient = punkApiClient ?? PunkApiClient();
+
   final PunkApiClient _punkApiClient;
-  ProductRepository(this._punkApiClient);
 
   Future<List<Beer>> fetchProductList(int page) async {
     final List<Map<String, dynamic>> result = await _punkApiClient.fetchList(
