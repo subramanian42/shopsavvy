@@ -154,6 +154,18 @@ The application utilizes the following dependencies and libraries:
 
 - **firebase_functions**: The Firebase Functions plugin for Flutter, used for deploying and managing serverless functions on Firebase.
 
+## Test Cases
+
+To run the test cases, follow these steps:
+
+1. Change to the project directory (if not already in):
+
+```bash
+cd shop-savvy
+Run the tests using the following command:
+
+flutter test
+```
 ## Assumptions
 
 The following assumptions were made during the development of the Shop Savvy application:
@@ -161,7 +173,7 @@ The following assumptions were made during the development of the Shop Savvy app
 1. The user authentication process is handled entirely by the social login APIs (Google, LinkedIn) provided by Firebase Authentication.
 2. The backend API provided by Punk API is used for retrieving the product data.
 3. The design and layout of the application follow the specifications provided in the Figma design.
-4. Meta now requires all NEWLY entered package names to be associated with a valid google play store URL hence facebook provider has not been implemented[link](https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432)
+4. Meta now requires all NEWLY entered package names to be associated with a valid google play store URL hence facebook provider has not been implemented [link](https://developers.facebook.com/support/bugs/1307870196812047/?join_id=f12e5a3b52a432)
 
 ## Project Structure
 
