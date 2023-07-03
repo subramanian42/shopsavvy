@@ -46,7 +46,7 @@ class AuthRepository {
         accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      await _firebaseAuth.signInWithCredential(credential);
     } on FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } catch (_) {
@@ -62,7 +62,7 @@ class AuthRepository {
         final OAuthCredential credential =
             FacebookAuthProvider.credential(result.accessToken!.token);
 
-        await FirebaseAuth.instance.signInWithCredential(credential);
+        await _firebaseAuth.signInWithCredential(credential);
       }
     } on FirebaseAuthException catch (e) {
       throw LogInWithFacebookFailure.fromCode(e.code);
