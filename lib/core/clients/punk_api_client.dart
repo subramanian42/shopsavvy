@@ -19,7 +19,7 @@ class PunkApiClient {
   final http.Client httpClient;
   final String version;
 
-  Future<Map<String, dynamic>> fetch(
+  Future<List<dynamic>> fetchList(
     String path, {
     Map<String, String>? queryParams,
   }) async {
@@ -32,52 +32,18 @@ class PunkApiClient {
     return _handleResponse(response);
   }
 
-  Future<List<dynamic>> fetchList(
-    String path, {
-    Map<String, String>? queryParams,
-  }) async {
-    Uri uri = await _createUri(path, queryParams: queryParams);
-
-    final response = await httpClient.get(
-      uri,
-    );
-
-    return jsonDecode(response.body) as List;
-  }
-
-  Future<dynamic> fetchFromUrl(
-    String url, {
-    Map<String, String>? queryParams,
-  }) async {
-    Uri uri = Uri();
-
-    uri = Uri.parse(url);
-    if (queryParams != null && queryParams.isNotEmpty) {
-      uri = uri.replace(queryParameters: queryParams);
-    }
-    final response = await httpClient.get(
-      uri,
-    );
-    final result = jsonDecode(response.body);
-    if (result == List<dynamic>) {
-      return result as List;
-    } else {
-      return result;
-    }
-  }
-
-  Map<String, dynamic> _handleResponse(http.Response response) {
+  List<dynamic> _handleResponse(http.Response response) {
     if (response.statusCode < 200 || response.statusCode > 204) {
       throw NetWorkException(response.statusCode);
     }
     try {
       if (response.body.isNotEmpty) {
-        return jsonDecode(response.body) as Map<String, dynamic>;
+        return jsonDecode(response.body) as List;
       }
     } catch (e) {
       throw Exception(e);
     }
-    return {};
+    return [];
   }
 
   Future<Uri> _createUri(
