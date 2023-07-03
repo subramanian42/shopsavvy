@@ -9,7 +9,7 @@ import 'package:linkedin_login/linkedin_login.dart';
 import '../exceptions/exceptions.dart';
 import '../model/user_model.dart';
 
-class LogOutFailure implements Exception {}
+class LogoutFailure implements Exception {}
 
 class AuthRepository {
   AuthRepository({
