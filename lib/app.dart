@@ -1,42 +1,37 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:shopsavvy/core/theme/theme.dart';
 
 import 'core/bloc/auth_bloc.dart';
-import 'core/clients/punk_api_client.dart';
 import 'core/repository/auth_repository.dart';
 import 'core/repository/product_repository.dart';
 import 'core/routes/router.dart';
 
 class ShopSavvy extends StatefulWidget {
-  const ShopSavvy({super.key});
-
+  const ShopSavvy({
+    super.key,
+    required AuthRepository authRepository,
+    required ProductRepository productRepository,
+  })  : _authRepo = authRepository,
+        _productRepo = productRepository;
+  final AuthRepository _authRepo;
+  final ProductRepository _productRepo;
   @override
   State<ShopSavvy> createState() => _ShopSavvyState();
 }
 
 class _ShopSavvyState extends State<ShopSavvy> {
-  late final PunkApiClient _client;
-  late final AuthRepository _authRepo;
-  @override
-  void initState() {
-    super.initState();
-
-    _client = PunkApiClient();
-    _authRepo = AuthRepository();
-  }
-
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider<AuthRepository>.value(value: _authRepo),
-        RepositoryProvider<ProductRepository>(
-            create: (context) => ProductRepository(_client)),
+        RepositoryProvider<AuthRepository>.value(value: widget._authRepo),
+        RepositoryProvider<ProductRepository>.value(value: widget._productRepo),
       ],
       child: BlocProvider<AuthBloc>(
-        create: (context) => AuthBloc(authenticationRepository: _authRepo),
+        create: (context) => AuthBloc(authRepository: widget._authRepo),
         child: ShopSavvyView(),
       ),
     );
