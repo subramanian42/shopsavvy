@@ -72,6 +72,22 @@ class Beer extends Equatable {
         ph,
         attenuationLevel
       ];
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'name': name,
+        'tagline': tagline,
+        'first_brewed': firstBrewed,
+        'description': description,
+        'image_url': imageUrl,
+        'abv': _convertStringToDoubleOrInt(abv),
+        'ibu': _convertStringToDoubleOrInt(ibu),
+        'target_fg': _convertStringToDoubleOrInt(targetFg),
+        'target_og': _convertStringToDoubleOrInt(targetOg),
+        'ebc': _convertStringToDoubleOrInt(ebc),
+        'srm': _convertStringToDoubleOrInt(srm),
+        'ph': _convertStringToDoubleOrInt(ph),
+        'attenuation_level': _convertStringToDoubleOrInt(attenuationLevel),
+      };
 }
 
 String _convertDoubleToString(dynamic value) {
@@ -81,5 +97,14 @@ String _convertDoubleToString(dynamic value) {
     return (value as double).toStringAsFixed(0);
   } else {
     return (value as double).toStringAsFixed(1);
+  }
+}
+
+dynamic _convertStringToDoubleOrInt(String value) {
+  if (value.isEmpty) return null;
+  if (value.contains('.')) {
+    return double.tryParse(value) ?? 0.0;
+  } else {
+    return int.tryParse(value) ?? 0;
   }
 }
