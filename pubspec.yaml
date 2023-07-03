@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
+  bloc_concurrency: ^0.2.2
   cloud_functions: ^4.3.3
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
@@ -19,6 +20,7 @@ dependencies:
   http: ^1.0.0
   linkedin_login: ^2.2.1
   shared_preferences: ^2.1.2
+  stream_transform: ^2.1.0
 dependency_overrides:
   http: ^0.13.4
 dev_dependencies:
