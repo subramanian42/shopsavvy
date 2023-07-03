@@ -2,7 +2,7 @@ part of 'login_bloc.dart';
 
 enum LoginStatus { initial, success, failure, loading }
 
-class LoginState {
+class LoginState extends Equatable {
   const LoginState({
     this.status = LoginStatus.initial,
     this.errorMessage,
@@ -18,4 +18,7 @@ class LoginState {
       errorMessage: errorMessage ?? this.errorMessage,
     );
   }
+
+  @override
+  List<Object?> get props => [status, errorMessage];
 }
