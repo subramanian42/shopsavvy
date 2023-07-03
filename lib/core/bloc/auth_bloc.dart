@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../model/user_model.dart';
@@ -10,11 +11,11 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository _authRepository;
-  AuthBloc({required AuthRepository authenticationRepository})
-      : _authRepository = authenticationRepository,
+  AuthBloc({required AuthRepository authRepository})
+      : _authRepository = authRepository,
         super(
-          authenticationRepository.currentUser.isNotEmpty
-              ? AuthState.authenticated(authenticationRepository.currentUser)
+          authRepository.currentUser.isNotEmpty
+              ? AuthState.authenticated(authRepository.currentUser)
               : const AuthState.unauthenticated(),
         ) {
     on<AppUserChanged>(onAppUserChanged);
