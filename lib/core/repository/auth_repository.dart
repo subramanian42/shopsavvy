@@ -129,21 +129,25 @@ class AuthRepository {
       throw LogInWithLinkedinFailure.fromCode("email-already-in-use");
   }
 
-  Future<void> logout() async {
-    String socialSignInType = "";
-    if (_firebaseAuth.currentUser?.providerData.isNotEmpty ?? false)
-      socialSignInType =
-          _firebaseAuth.currentUser?.providerData[0].providerId ?? "";
-    await _firebaseAuth.signOut();
-    switch (socialSignInType) {
-      case "google.com":
-        await _googleSignIn.signOut();
-        break;
-      case "facebook.com":
-        await FacebookAuth.instance.logOut();
-        break;
-      default:
-        break;
+  Future<void> logout({String? signinType}) async {
+    try {
+      String socialSignInType = signinType ?? "";
+      if (_firebaseAuth.currentUser?.providerData.isNotEmpty ?? false)
+        socialSignInType =
+            _firebaseAuth.currentUser?.providerData[0].providerId ?? "";
+      await _firebaseAuth.signOut();
+      switch (socialSignInType) {
+        case "google.com":
+          await _googleSignIn.signOut();
+          break;
+        case "facebook.com":
+          await _facebookAuth.logOut();
+          break;
+        default:
+          break;
+      }
+    } catch (_) {
+      throw LogoutFailure();
     }
   }
 }
