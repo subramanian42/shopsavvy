@@ -1,4 +1,6 @@
-class UserModel {
+import 'package:equatable/equatable.dart';
+
+class UserModel extends Equatable {
   const UserModel({
     required this.id,
     this.email,
@@ -21,4 +23,6 @@ class UserModel {
   bool get isEmpty => this == UserModel.empty;
 
   bool get isNotEmpty => this != UserModel.empty;
+  @override
+  List<Object?> get props => [email, id, name, photo, fullName];
 }
