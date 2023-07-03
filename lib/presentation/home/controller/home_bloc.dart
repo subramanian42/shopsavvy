@@ -30,7 +30,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       if (state.status == FetchStatus.initial) {
         final productList =
             await productRepository.fetchProductList(state.pageNumber);
-        emit(
+        return emit(
           state.copyWith(
             status: FetchStatus.success,
             pageNumber: state.pageNumber + 1,
