@@ -2,7 +2,7 @@ part of 'home_bloc.dart';
 
 enum FetchStatus { initial, success, failure }
 
-class HomeState {
+class HomeState extends Equatable {
   final FetchStatus status;
   final bool hasReachedMax;
   final int pageNumber;
@@ -11,7 +11,7 @@ class HomeState {
   const HomeState({
     this.status = FetchStatus.initial,
     this.hasReachedMax = false,
-    this.pageNumber = 1,
+    this.pageNumber = 0,
     this.beers = const [],
     this.errorMessage,
   });
@@ -30,4 +30,8 @@ class HomeState {
       errorMessage: errorMessage,
     );
   }
+
+  @override
+  List<Object?> get props =>
+      [status, hasReachedMax, pageNumber, errorMessage, beers];
 }
