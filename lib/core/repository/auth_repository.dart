@@ -14,12 +14,18 @@ class LogOutFailure implements Exception {}
 class AuthRepository {
   AuthRepository({
     FirebaseAuth? firebaseAuth,
+    FacebookAuth? facebookAuth,
+    FirebaseFunctions? firebaseFunctions,
     GoogleSignIn? googleSignIn,
   })  : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
+        _googleSignIn = googleSignIn ?? GoogleSignIn.standard(),
+        _facebookAuth = facebookAuth ?? FacebookAuth.instance,
+        _firebaseFunctions = firebaseFunctions ?? FirebaseFunctions.instance;
 
-  late final FirebaseAuth _firebaseAuth;
+  final FirebaseAuth _firebaseAuth;
   final GoogleSignIn _googleSignIn;
+  final FacebookAuth _facebookAuth;
+  final FirebaseFunctions _firebaseFunctions;
 
   Stream<UserModel> get user {
     return _firebaseAuth.userChanges().map((firebaseUser) {
