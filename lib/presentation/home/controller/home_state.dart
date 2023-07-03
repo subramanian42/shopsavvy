@@ -11,7 +11,7 @@ class HomeState extends Equatable {
   const HomeState({
     this.status = FetchStatus.initial,
     this.hasReachedMax = false,
-    this.pageNumber = 0,
+    this.pageNumber = 1,
     this.beers = const [],
     this.errorMessage,
   });
