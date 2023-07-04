@@ -28,7 +28,18 @@ class MockFirebaseUser extends Mock implements firebase_auth.User {}
 
 class MockUserSucceededAction extends Mock implements UserSucceededAction {}
 
-class MockLinkedinUserModel extends Mock implements LinkedInUserModel {}
+class MockLinkedinUserModel extends Mock implements LinkedInUserModel {
+  @override
+  LinkedInPersonalInfo? get firstName =>
+      LinkedInPersonalInfo(localized: LinkedInLocalInfo(label: "test"));
+  @override
+  LinkedInPersonalInfo? get lastName =>
+      LinkedInPersonalInfo(localized: LinkedInLocalInfo(label: "value"));
+  @override
+  LinkedInProfilePicture? get profilePicture => LinkedInProfilePicture(
+        displayImage: "display_image",
+      );
+}
 
 class MockLinkedinProfileEmail extends Mock implements LinkedInProfileEmail {
   @override
@@ -160,6 +171,7 @@ void main() {
         late UserSucceededAction response;
         late LinkedInUserModel userModel;
         late LinkedInProfileEmail emailModel;
+        late firebase_auth.User firebaseUser;
         late HttpsCallable httpsCallable;
         late HttpsCallableResult<Map<String, dynamic>> httpsCallableResult;
         const uid = "userid";
@@ -167,6 +179,7 @@ void main() {
         setUp(() {
           response = MockUserSucceededAction();
           userModel = MockLinkedinUserModel();
+          firebaseUser = MockFirebaseUser();
           emailModel = MockLinkedinProfileEmail();
           httpsCallable = MockHttpsCallable();
           httpsCallableResult = MockHttpsCallableResult<Map<String, dynamic>>();
@@ -180,6 +193,14 @@ void main() {
               .thenAnswer((_) => Future.value(httpsCallableResult));
           when(() => httpsCallableResult.data)
               .thenReturn({"token": 'my_token'});
+          when(() => firebaseAuth.currentUser).thenAnswer((_) => firebaseUser);
+          when(() => firebaseUser.updateDisplayName(any()))
+              .thenAnswer((_) => Future.value());
+          when(() => firebaseUser.updatePhotoURL(any()))
+              .thenAnswer((_) => Future.value());
+          when(() => firebaseUser.updateEmail(any()))
+              .thenAnswer((_) => Future.value());
+
           when(() => firebaseAuth.fetchSignInMethodsForEmail(email))
               .thenAnswer((_) => Future.value([]));
           when(() => firebaseAuth.signInWithCustomToken(any()))
@@ -197,7 +218,7 @@ void main() {
           expect(authRepository.loginWithLinkedin(response), completes);
         });
 
-        test('throws LogInWithGoogleFailure when exception occurs', () async {
+        test('throws LogInWithLinkedinFailure when exception occurs', () async {
           when(() => firebaseAuth.signInWithCustomToken(any()))
               .thenThrow(Exception());
           expect(
